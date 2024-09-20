@@ -1,0 +1,36 @@
+@import './colors.scss';
+
+.time-interval {
+    display: flex;
+    justify-content: space-between;
+    max-width: 937px;
+
+    &__date {
+        font-weight: 700;
+        font-size: 200px;
+        line-height: 160px;
+    }
+
+    & .start-date {
+        color: $Date-Color-Dark;
+    }
+
+    & .end-date {
+        color: $Date-Color-Light;
+    }
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid black;
+    top: 10px;
+    left: 10px;
+
+    & .point {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: aqua;
+    }
+}
