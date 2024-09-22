@@ -20,16 +20,16 @@ export const Wheel: FC<WheelProps> = ({ items, currentId, setCurrentId }) => {
   const container = useRef(null);
   const q = gsap.utils.selector(container);
 
-  // useEffect(() => {
-  //   const rotateDeg = getRotateDeg();
-  //   q(".date-mark").forEach((mark, index) => {
-  //     mark.style.transform = `translate(${getPointCoord(
-  //       index,
-  //       true,
-  //       rotateDeg
-  //     )}px, ${getPointCoord(index, false, rotateDeg)}px)`;
-  //   });
-  // }, []);
+  useEffect(() => {
+    const rotateDeg = getRotateDeg();
+    q(".date-mark").forEach((mark, index) => {
+      mark.style.transform = `translate(${getPointCoord(
+        index,
+        true,
+        rotateDeg
+      )}px, ${getPointCoord(index, false, rotateDeg)}px)`;
+    });
+  }, []);
 
   useGSAP(
     () => {
@@ -39,10 +39,6 @@ export const Wheel: FC<WheelProps> = ({ items, currentId, setCurrentId }) => {
         gsap.to(mark, {
           x: getPointCoord(index, true, rotateDeg),
           y: getPointCoord(index, false, rotateDeg),
-          // motionPath: {
-          //   path: "#circle-path",
-          //   type: "cubic",
-          // },
         });
       });
     },
