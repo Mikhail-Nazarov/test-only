@@ -30,14 +30,7 @@ module.exports = {
             {
                 test: /\.svg$/,
                 use: [
-                    { loader: "raw-loader" },
-                    {
-                        loader: "svgo-loader",
-                        options: {
-                            configFile: __dirname + "/svgo.config.mjs",
-                            floatPrecision: 2,
-                        }
-                    }
+                    { loader: '@svgr/webpack', },
                 ]
             },
         ],

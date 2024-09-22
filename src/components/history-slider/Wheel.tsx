@@ -1,4 +1,8 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import Circle from "../../svg/circle.svg";
+import MotionPathPlugin from "gsap/MotionPathPlugin";
 
 const RADIUS = 265;
 
@@ -8,20 +12,80 @@ type WheelProps = {
     category: string;
   }[];
   currentId: number;
+  setCurrentId: (val: number) => void;
 };
 
-export const Wheel: FC<WheelProps> = ({ items, currentId }) => {
+export const Wheel: FC<WheelProps> = ({ items, currentId, setCurrentId }) => {
   const degStep = 360 / items.length;
+  const container = useRef(null);
+  const q = gsap.utils.selector(container);
 
-  const getPointCoord = (index: number, isX: boolean) => {
+  // useEffect(() => {
+  //   const rotateDeg = getRotateDeg();
+  //   q(".date-mark").forEach((mark, index) => {
+  //     mark.style.transform = `translate(${getPointCoord(
+  //       index,
+  //       true,
+  //       rotateDeg
+  //     )}px, ${getPointCoord(index, false, rotateDeg)}px)`;
+  //   });
+  // }, []);
+
+  useGSAP(
+    () => {
+      gsap.registerPlugin(MotionPathPlugin);
+      const rotateDeg = getRotateDeg();
+      q(".date-mark").forEach((mark, index) => {
+        gsap.to(mark, {
+          x: getPointCoord(index, true, rotateDeg),
+          y: getPointCoord(index, false, rotateDeg),
+          // motionPath: {
+          //   path: "#circle-path",
+          //   type: "cubic",
+          // },
+        });
+      });
+    },
+    { dependencies: [currentId], scope: container }
+  );
+
+  const getPointCoord = (index: number, isX: boolean, rotate: number) => {
     const func = isX ? Math.cos : Math.sin;
-    const radian = degStep * index * Math.PI / 180;
-    return RADIUS + RADIUS * func(radian) - 5;
-  }
+    const radian = ((degStep * index - rotate) * Math.PI) / 180;
 
-  return <div className="circle" style={{width: `${RADIUS * 2 }px`, height: `${RADIUS * 2 }px`}}>
-    {items.map((item, index) => 
-        <div key={item.id} className="point" style={{left: `${getPointCoord(index, true)}px`, top: `${getPointCoord(index, false)}px`}}></div>
-    )}
-  </div>;
+    return RADIUS + RADIUS * func(radian) - 28;
+  };
+
+  const getRotateDeg = () => {
+    let index = 0;
+    items.forEach((item, idx) => {
+      if (item.id === currentId) index = idx;
+    });
+
+    return 60 + degStep * index;
+  };
+
+  return (
+    <div
+      ref={container}
+      className="circle"
+      style={{
+        width: `${RADIUS * 2}px`,
+        height: `${RADIUS * 2}px`,
+      }}
+    >
+      <Circle def />
+      {items.map((item, index) => (
+        <div
+          onClick={() => setCurrentId(item.id)}
+          key={item.id}
+          className={"date-mark" + (item.id === currentId ? " active" : "")}
+        >
+          <div className="point"></div>
+          <span>{index + 1}</span>
+          <label>{item.category}</label>
+        </div>
+      ))}
+    </div>
+  );
 };

@@ -1,9 +1,104 @@
 @import './colors.scss';
 
+.history-slider {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    max-width: 1440px;
+    border: 1px solid #e3e6ed9a;
+    overflow: hidden;
+    padding: 150px 40px 100px 78px;
+
+    & .interval-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 130px;
+        margin-top: 100px;
+
+        &:after {
+            position: absolute;
+            content: "";
+            width: 150vw;
+            top: 50%;
+            border-top: 1px solid #e3e6ed9a;
+        }
+    
+        &:before {
+            position: absolute;
+            content: "";
+            height: 150vh;
+            left: 50%;
+            border-left: 1px solid #e3e6ed9a;
+        }
+    }
+
+    & h1 {
+        max-width: 350px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: "";
+
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(#3877EE, #EF5DA8);
+            left: -78px;
+        }
+    }
+
+    @media (max-width: 900px) {
+
+        & .time-interval {
+            max-width: 500px;
+        }
+
+        .time-interval__date {
+            font-size: 100px;
+            line-height: 130%;
+        }
+
+        & .interval-wrapper {
+            &:after, &:before {
+                display: none;
+            }
+        }
+
+        & h1 {
+            &:before {
+                display: none;
+            }
+        }
+    }
+
+    @media (max-width: 500px) {
+        padding: 59px 20px 32px 20px;
+
+        & .time-interval {
+            max-width: 300px;
+        }
+
+        & .time-interval__date {
+            font-size: 56px;
+        }
+
+        & .interval-wrapper {
+            margin-bottom: 57px;
+            margin-top: 57px;
+        }
+    }
+}
+
 .time-interval {
     display: flex;
     justify-content: space-between;
     max-width: 937px;
+    z-index: 10;
+    user-select: none;
+    width: 100%;
 
     &__date {
         font-weight: 700;
@@ -22,15 +117,167 @@
 
 .circle {
     position: absolute;
-    border-radius: 50%;
-    border: 1px solid black;
-    top: 10px;
-    left: 10px;
 
-    & .point {
+    & svg {
         position: absolute;
-        width: 10px;
-        height: 10px;
-        background-color: aqua;
+        top: 0;
+        left: 0;
+    }
+
+    & .date-mark {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid transparent;
+        width: 56px;
+        height: 56px;
+        z-index: 11;
+        cursor: pointer;
+
+        & span, label {
+            display: none;
+        }
+
+        & .point {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: $Text-Color;
+        }
+
+        & span {
+            font-size: 20px;
+        }
+
+        & label {
+            position: absolute;
+            font-weight: 700;
+            font-size: 20px;
+            color: $Text-Color;
+            left: 76px;
+        }
+
+        &.active {
+            & label {
+                display: block;
+            }
+        }
+
+        &:hover, &.active {
+            border: 1px solid #303E5880;
+            background-color: #fff;
+    
+            & .point {
+                display: none;
+            }
+
+            & span {
+                display: block;
+            }
+        }
+    }
+
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
+
+.slider-pagination {
+    display: flex;
+    margin-bottom: 56px;
+    align-items: center;
+
+    & .buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+
+        & button {
+            border-radius: 50%;
+            border: 1px solid $Text-Color;
+            padding: 18px;
+            line-height: 0;
+            cursor: pointer;
+            background: none;
+
+            &.right {
+                & svg {
+                    transform: rotate(180deg);
+                }
+            }
+
+            & svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            &:disabled {
+                border-color: #42567A80;
+
+                & svg {
+                    opacity: 50%;
+                }
+            }
+        }
+    }
+
+    & .points {
+        position: absolute;
+        width: 100%;
+        gap: 10px;
+        justify-content: center;
+        display: none;
+
+        & .point {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #acb5c6;
+
+            &.active {
+                background-color: #42567A;
+            }
+        }
+    }
+
+    @media (max-width: 500px) {
+        position: absolute;
+        left: 20px;
+        bottom: 15px;
+        margin: 0;
+        gap: 10px;
+        width: 100%;
+
+        & .buttons {
+            gap: 10px;
+
+            & button {
+                padding: 10px;
+            }
+        }
+
+        & .points {
+            display: flex;
+        }
+    }
+}
+
+.history-event {
+    max-width: 400px;
+
+    & h3 {
+        color: #3877EE;
+        font-size: 25px;
+        font-weight: 400;
+        margin-bottom: 15px;
+        line-height: 30px;
+    }
+
+    & p {
+        font-size: 20px;
+        line-height: 30px;
     }
 }

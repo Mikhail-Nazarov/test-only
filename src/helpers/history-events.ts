@@ -96,5 +96,37 @@ export const historyData: ITimeInterval[] = [
         ],
         years: [2006, 2015],
         category: "Литература"
+    },
+    {
+        id: 4,
+        events: [
+            {
+                id: 41,
+                year: 2015,
+                body: "test 2006"
+            },
+            {
+                id: 42,
+                year: 2016,
+                body: "test 2008"
+            },
+            {
+                id: 43,
+                year: 2019,
+                body: "test 2010"
+            },
+            {
+                id: 44,
+                year: 2020,
+                body: "test 2007"
+            },
+            {
+                id: 45,
+                year: 2022,
+                body: "test 2015"
+            },
+        ],
+        years: [2015, 2022],
+        category: "Спорт"
     }
 ]
